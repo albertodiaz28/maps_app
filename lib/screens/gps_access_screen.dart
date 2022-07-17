@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/blocs.dart';
 
 
 class GpsAccessScreen extends StatelessWidget {
@@ -7,7 +10,13 @@ class GpsAccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _AccessButton(),
+        child: BlocBuilder<GpsBloc, GpsState>(
+          builder: (context, state) {
+            return !state.isGpsEnabled
+              ? const _EnableGpsMessage()
+              : const _AccessButton();
+          },
+        )
      ),
    );
   }
@@ -46,7 +55,7 @@ class _EnableGpsMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Text(
       'Debe activar el GPS para usar la aplicación',
-      style: TextStyle( fontSize: 25, fontWeight: FontWeight.w300),
+      style: TextStyle( fontSize: 20, fontWeight: FontWeight.w300),
     );
   }
 }
