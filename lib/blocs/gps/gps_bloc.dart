@@ -16,14 +16,20 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
   }
 
   Future<void> _init() async {
-    _checkGpsStatus();
+    final isEnabled = await _checkGpsStatus();
+    
   }
 
   Future<bool> _checkGpsStatus() async {
     final isEnable = await Geolocator.isLocationServiceEnabled();
     Geolocator.getServiceStatusStream().listen((event) {
-
+      final isEnabled = (event.index == 1) ? true : false;
     });
     return isEnable;
+  }
+
+  @override
+  Future<void> close() {
+    return super.close();
   }
 }
